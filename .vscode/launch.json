@@ -1,0 +1,11 @@
+{
+    "name": "Python: Django",
+    "type": "python",
+    "request": "launch",
+    "program": "procoldelvalle/manage.py",
+    "args": [
+      "runserver",
+      "--noreload"
+    ],
+    "django": true
+  }

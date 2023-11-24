@@ -1,0 +1,207 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Panel de Bodega {% endblock %}
+
+{% block styles %}
+<script type="text/javascript">
+    const pagina = "Bodega";
+</script> {% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventario</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Bodega</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Panel</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Panel de Bodega</h6>
+</nav>
+{% endblock %}
+{% block body %}
+<div class="card m-4">
+    <div class="card-body">
+        <div class="card-header py-0 pt-2 d-flex justify-content-between">
+            <p class="text-uppercase text-sm" id="first__description">Agregar Registro de la Bodega</p>
+            <p class="x"></p>
+        </div>
+        <div class="message"></div>
+        <form action="/registrarBodega/" method="POST" aria-action="add" id="form" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row m-0 ms-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Codigo Entrega *</label>
+                        <input type="number" class="form-control" placeholder="Ingresa el Codigo de Entrega"
+                            id="primaryKey" name="primaryKey" value="{{ codigoEntrega }}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Proveedor *</label>
+                        <select class="form-select" required id="proveedor" name="proveedor">
+                            <!-- Lista los productos -->
+                            {% for prov in Proveedores %}
+                            <option value="{{prov.codigoProveedor}}">{{prov.nombreProveedor}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Producto *</label>
+                        <select class="form-select" required id="producto" name="producto">
+                            <!-- Lista los productos -->
+                            {% for p in Productos %}
+                            <option value="{{p.codigoProducto}}">{{p.nombreProducto}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Cantidad *</label>
+                        <input type="number" class="form-control" placeholder="Ingresa tu Cantidad" id="cantidad"
+                            name="cantidad">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Pago Efectuado *</label>
+                        <input type="text" class="form-control" placeholder="Ingresa el Pago Efectuado" id="pago"
+                            name="pago">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Fecha Entrega *</label>
+                        <input type="date" class="form-control" placeholder="Ingresa la Fecha de la Entrega" id="fecha"
+                            name="fecha">
+                    </div>
+                </div>
+                <div class="input-box mb-3">
+                    <label class="details">Trabajador quien recibe</label>
+                    <select class="form-select" required id="trabajador" name="trabajador">
+                        <!-- Lista los trabajadores -->
+                        {% for t in Trabajadores %}
+                        <option value="{{t.cedula}}">{{t.nombreCompleto}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="button">
+                    <input type="submit" class="btn btn-dark btn-sm ms-auto form-control" value="Registrar en la Bodega" id="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Registros de Bodega Añadidos Recientemente</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                            Codigo</th>
+                                        <th <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Proveedor</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Producto</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Cantidad</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Pago</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Fecha</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Trabajador</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7 px-2 w-10">
+                                            Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for b in Bodega|slice:":10" %}
+                                    <tr>
+                                        <td data-label="Codigo">
+                                            <span class="text-sm ps-3">{{b.codigoEntrega}}</span>
+                                        </td>
+                                        <a href="#">
+                                            <td data-label="Proveedor">
+                                                <span class="badge badge-sm bg-dark">{{b.proveedor.nombreProveedor}}</span>
+                                            </td>
+                                        </a>
+                                        <td data-label="Producto">
+                                            <span class="badge badge-sm bg-success">{{b.producto.nombreProducto}}</span>
+                                        </td>
+                                        <td data-label="Cantidad" class="">
+                                            <span class="text-sm ">{{b.cantidad}}</span>
+                                        </td>
+                                        <td data-label="Pago" class="align-middle">
+                                            <span class="text-sm">{{b.pago}}</span>
+                                        </td>
+                                        <td data-label="Fecha" class="align-middle">
+                                            <span class="text-sm">{{b.fecha}}</span>
+                                        </td>
+                                        <td data-label="Trabajador" class="align-middle">
+                                            <span class="badge badge-sm bg-dark">{{b.trabajador.nombreCompleto}}</span>
+                                        </td>
+                                        <td data-label="Acciones" class="align-middle text-center">
+                                            <a class="edit text-secondary font-weight-bold text-xs cursor-pointer"
+                                                id="{{b.codigoEntrega}}" aria-action="edit">
+                                                <i class="fa-solid fa-pencil me-3"></i>
+                                            </a>
+                                            <a class="delete text-secondary font-weight-bold text-xs cursor-pointer"
+                                                id="{{b.codigoEntrega}}" aria-action="delete">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% csrf_token %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+              <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                  <div class="copyright text-center text-sm text-muted text-lg-start">
+                    © <script>
+                      document.write(new Date().getFullYear())
+                    </script>,
+                    hecho con <i class="fa fa-heart"></i> por
+                    <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+    </div>
+    </main>
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="{% static 'assets/js/crud/bodega/Kardex/panel.js' %}"></script>
+    <script src="{% static 'assets/js/crud/crud.js' %}"></script>
+    {% endblock %}

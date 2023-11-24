@@ -1,0 +1,241 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Panel de Productos {% endblock %}
+{% block styles %}
+<script type="text/javascript">
+    const pagina = "Productos";
+</script> {% endblock %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white"
+                href="javascript:;">Paginas</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventario</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Productos</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Panel</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Panel de Productos</h6>
+</nav>
+{% endblock %}
+{% block body %}
+    <div class="card m-4">
+        <div class="card-body">
+
+        {% if request.session.Cargo == "Jefe" %}
+
+            <div class="card-header py-0 pt-2 d-flex justify-content-between">
+                <p class="text-uppercase text-sm" id="first__description">Agregar Productos</p>
+                <p class="x"></p>
+            </div>
+
+            <div class="message"></div>
+            <form action="/registrarProductos/" method="POST" aria-action="add" id="form"
+                enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center border-end flex-column justify-content-center h-100">
+                            <figure class="d-flex justify-content-center flex-column align-items-center">
+                                <img src="{% static 'assets/images/Product Photo Default.png' %}" class="w-50"
+                                    alt="Product Photo" id="choosen-image">
+                                <figcaption id="file-name"></figcaption>
+                            </figure>
+                            <div class="">
+                                <input type="file" class="form-label d-none" id="upload-button" accept="image/*"
+                                    id="imageInput" name="imageInput">
+                                <label class="btn bg-gradient-success" for="upload-button"><i class="fa-solid fa-upload"></i>
+                                    Seleccionar archivo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-8">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Codigo *</label>
+                                <input type="number" class="form-control" placeholder="Ingresa el Codigo"
+                                    id="primaryKey" name="primaryKey" value="{{ codigoProducto }}" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Nombre *</label>
+                                <input type="text" class="form-control" placeholder="Ingresa Nombre del Producto"
+                                    id="nombreProducto" name="nombreProducto">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-control-label details">Descripción *</label>
+                                <textarea type="text" class="form-control" placeholder="Ingresa la Descripcion del Producto" id="descripcionProducto"
+                                    name="descripcionProducto"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Precio *</label>
+                                <input type="number" class="form-control" placeholder="Ingresa el Precio"
+                                    id="precio" name="precio">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Stock *</label>
+                                <input type="number" class="form-control" placeholder="Ingresa el Stock"
+                                    id="stock" name="stock">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="details">Proveedor *</label>
+                            <select class="form-select" required id="proveedor" name="proveedor">
+                                <!-- Lista los Proveedores -->
+                                {% for p in Proveedores %}
+                                <option value="{{p.codigoProveedor}}">{{p.nombreProveedor}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="details">Categoria *</label>
+                            <select class="form-select" required id="categoria" name="categoria">
+                                <!-- Lista los Proveedores -->
+                                {% for c in Categorias %}
+                                <option value="{{c.codigoCategorias}}">{{c.nombreCategoria}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="button mt-3">
+                            <button type="submit" value="registrar Producto" class="btn btn-dark btn-sm ms-auto w-100"
+                                id="submit">Agregar Producto</button>
+                        </div>
+                    </div>
+                </div>
+                {%else%}
+                    <p style="margin-bottom: 0rem;">No cuentas con los privilegios necesarios para acceder a esta seccion</p>
+                {%endif%}
+        </div>
+        </form>
+    </div>
+
+    {% if request.session.Cargo == "Jefe" %}
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Productos Registrados Recientemente</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Nombre</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 pe-2">
+                                            Descripcion</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Precio</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Stock</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Proveedor</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Categoria</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for c in Productos|slice:":10" %}
+                                    <tr>
+                                        <td data-label="Producto">
+                                            <div class="d-flex px-2 py-1 ms-2">
+                                                <div>
+                                                    {% if c.imagen %}
+                                                    <img src="{{ c.imagen.url }}" class="avatar avatar-sm me-3"
+                                                        alt="Foto">
+                                                    {% else %}
+                                                    <img src="{% static 'assets/images/Product Photo Default.png' %}"
+                                                        class="avatar avatar-sm me-3" alt="Foto">
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 data-label="Cedula" class="mb-0 text-sm">{{c.nombreProducto}}
+                                                    </h6>
+                                                    <p class="text-xs text-secondary mb-0">{{c.codigoProducto}}</p>
+                                                </div>
+                                            </div>
+                        </div>
+                        </td>
+                        <td data-label="Descripcion" class="align-middle text-center">
+                            <label class="form-control-label details" style="font-size: 0.85rem;">
+                                <i class="ps-2 fa-solid fa-circle-info info-button" style="cursor: pointer;"></i>
+                            </label>
+                            <a class="info cursor-pointer"  style="font-size: 0.85rem;"
+                                aria-action="info"><i class=" fa-solid fa-circle-info"></i></a>
+                        </td>
+                        <td data-label="Precio" class="align-middle text-center text-sm">
+                            <span class="text-secondary text-xs font-weight-bold">{{c.precioUnidad}} COP</span>
+                        </td>
+                        <td data-label="Stock" class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">{{c.stock}}</span>
+                        </td>
+                        <td data-label="Proveedor" class="align-middle text-center text-sm">
+                            <span class="badge badge-sm bg-dark">{{c.proveedor.nombreProveedor}}</span>
+                        </td>
+                        <td data-label="Proveedor" class="align-middle text-center text-sm">
+                            <span class="badge badge-sm bg-success">{{c.categoria.nombreCategoria}}</span>
+                        </td>
+                        <td data-label="Acciones" class="align-middle text-center">
+                            <a class="edit text-secondary font-weight-bold text-xs cursor-pointer" id="{{c.codigoProducto}}"
+                                aria-action="edit"><i class="fa-solid fa-pencil me-3"></i></a>
+                            <a class="delete text-secondary font-weight-bold text-xs cursor-pointer" id="{{c.codigoProducto}}"
+                                aria-action="delete"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        {% csrf_token %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <footer class="footer pt-3  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+                hecho con <i class="fa fa-heart"></i> por
+                <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {%endif%}
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/crud/bodega/Productos/panel.js' %}"></script>
+<script src="{% static 'assets/js/crud/crud.js' %}"></script>
+{% endblock %}

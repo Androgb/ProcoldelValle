@@ -1,0 +1,400 @@
+{% load static %} <!--cargamos la carpeta static-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %} {% endblock %}</title>
+	<script src="https://kit.fontawesome.com/99611eeda4.js" crossorigin="anonymous"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	<!--     Fonts and icons     -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<!--	 lINKS CSS			 -->
+	<link rel="stylesheet" href="{% static 'assets/css/home/main.css' %}">
+	<!--	 lINKS FAVICON			 -->
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/images/apple-icon.png' %}">
+	<link rel="icon" type="image/png" href="{% static 'assets/images/Astrocode.png' %}">
+	<!-- Font Awesome Icons -->
+	<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+	{% block styles %} {% endblock %}
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+	{% if not request.session.Cedula and not request.session.Cargo %}
+	<script>
+		window.location.href = "/login/?message=No%20se%20puede%20acceder%20a%20esta%20sección%20sin%20haber%20iniciado%20sesión"
+	</script>
+	{% endif %}
+	<div class="position-absolute w-100 min-height-300 top-0"
+		style="background-image: url('../static/assets/images/profile-layout-header.jpg'); background-position-y: 50%;">
+		<span class="mask bg-primary opacity-6"></span>
+	</div>
+	<div id="body">
+		<aside
+			class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
+			id="sidenav-main">
+			<div class="sidenav-header">
+				<i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+					aria-hidden="true" id="iconSidenav"></i>
+				<a class="navbar-brand m-0" href="{% url 'Dashboard' %}" target="_blank">
+					<img src="{% static 'assets/images/Astrocode.png' %}" class="navbar-brand-img h-100"
+						alt="main_logo">
+					<span class="ms-1 font-weight-bold">Procol del Valle</span>
+				</a>
+			</div>
+			<hr class="horizontal dark mt-0">
+			<div class="collapse navbar-collapse  w-auto" style="height: 70%;" id="sidenav-collapse-main">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Menu</h6>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="{% url 'Dashboard' %}">
+							<div
+								class="icon icon-shape icon-sm border-radius-md text-center me-1 d-flex align-items-center justify-content-center">
+								<i class="bi bi-home-fill"></i>
+							</div>
+							<span class="nav-link-text">Dashboard</span>
+						</a>
+					</li>
+					{% if request.session.Cargo == "Jefe" %}
+					<li class="nav-item mt-3">
+						<h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Mis Apps</h6>
+					</li>
+					<li class="nav-item">
+						<a data-bs-toggle="collapse" href="#Usuarios" class="nav-link " aria-controls="Usuarios"
+							role="button" aria-expanded="false">
+							<div
+								class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+								<i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">Trabajadores</span>
+						</a>
+						<div class="collapse" id="Usuarios">
+							<ul class="nav ms-4">
+								<li class="nav-item ">
+									<a class="nav-link" href="{% url 'Usuarios:panelTrabajadores' %}">
+										<span class="sidenav-mini-icon"> P </span>
+										<span class="sidenav-normal"> Panel</span>
+									</a>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link" href="{% url 'Usuarios:listadoTrabajadores' %}">
+										<span class="sidenav-mini-icon"> P </span>
+										<span class="sidenav-normal"> Listado </span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					{% endif %}
+					<li class="nav-item">
+						<a data-bs-toggle="collapse" href="#Inventario" class="nav-link" aria-controls="Inventario"
+							role="button" aria-expanded="false">
+							<div
+								class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+								<i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">Inventario</span>
+						</a>
+						<div class="collapse" id="Inventario">
+							<ul class="nav ms-4">
+								<li class="nav-item ">
+									<a class="nav-link collapsed" data-bs-toggle="collapse" aria-expanded="false"
+										href="#kardex">
+										<span class="sidenav-mini-icon"> P </span>
+										<span class="sidenav-normal"> Bodega <b class="caret"></b></span>
+									</a>
+									<div class="collapse" id="kardex">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:panel' %}">
+													<span class="sidenav-mini-icon text-xs"> P </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:listado' %}">
+													<span class="sidenav-mini-icon text-xs"> T </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Categorias">
+										<span class="sidenav-mini-icon"> U </span>
+										<span class="sidenav-normal"> Categorias <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Categorias">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:panelCategorias' %}">
+													<span class="sidenav-mini-icon text-xs"> R </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:listadoCategorias' %}">
+													<span class="sidenav-mini-icon text-xs"> N </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Productos">
+										<span class="sidenav-mini-icon"> U </span>
+										<span class="sidenav-normal"> Productos <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Productos">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:panelProductos' %}">
+													<span class="sidenav-mini-icon text-xs"> R </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:listadoProductos' %}">
+													<span class="sidenav-mini-icon text-xs"> N </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Proveedores">
+										<span class="sidenav-mini-icon"> A </span>
+										<span class="sidenav-normal"> Proveedores <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Proveedores">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:panelProveedores'%}">
+													<span class="sidenav-mini-icon text-xs"> S </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Bodega:listadoProveedores'%}">
+													<span class="sidenav-mini-icon text-xs"> B </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a data-bs-toggle="collapse" href="#Facturacion" class="nav-link" aria-controls="Facturacion"
+							role="button" aria-expanded="false">
+							<div
+								class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+								<i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">Facturacion</span>
+						</a>
+						<div class="collapse" id="Facturacion">
+							<ul class="nav ms-4">
+								<li class="nav-item ">
+									<a class="nav-link collapsed" data-bs-toggle="collapse" aria-expanded="false"
+										href="#Ventas">
+										<span class="sidenav-mini-icon"> P </span>
+										<span class="sidenav-normal"> Ventas <b class="caret"></b></span>
+									</a>
+									<div class="collapse" id="Ventas">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:venta' %}">
+													<span class="sidenav-mini-icon text-xs"> P </span>
+													<span class="sidenav-normal"> Nueva Venta </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:facturas' %}">
+													<span class="sidenav-mini-icon text-xs"> T </span>
+													<span class="sidenav-normal"> Facturas </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Compras">
+										<span class="sidenav-mini-icon"> U </span>
+										<span class="sidenav-normal"> Compras <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Compras">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:panelCompras' %}">
+													<span class="sidenav-mini-icon text-xs"> R </span>
+													<span class="sidenav-normal"> Nueva Compra </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:listadoCompras' %}">
+													<span class="sidenav-mini-icon text-xs"> N </span>
+													<span class="sidenav-normal"> Listado de Compras </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Cajas">
+										<span class="sidenav-mini-icon"> A </span>
+										<span class="sidenav-normal"> Cajas <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Cajas">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:panelCajas'%}">
+													<span class="sidenav-mini-icon text-xs"> B </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:cajas'%}">
+													<span class="sidenav-mini-icon text-xs"> S </span>
+													<span class="sidenav-normal"> Nueva Caja </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:listadoCajas'%}">
+													<span class="sidenav-mini-icon text-xs"> B </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link " data-bs-toggle="collapse" aria-expanded="false"
+										href="#Movimientos">
+										<span class="sidenav-mini-icon"> A </span>
+										<span class="sidenav-normal"> Movimientos en Caja <b class="caret"></b></span>
+									</a>
+									<div class="collapse " id="Movimientos">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:panelMovimientos'%}">
+													<span class="sidenav-mini-icon text-xs"> B </span>
+													<span class="sidenav-normal"> Panel </span>
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:listadoMovimientos'%}">
+													<span class="sidenav-mini-icon text-xs"> B </span>
+													<span class="sidenav-normal"> Listado </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+								<li class="nav-item ">
+									<a class="nav-link collapsed" data-bs-toggle="collapse" aria-expanded="false"
+										href="#Ordenes">
+										<span class="sidenav-mini-icon"> P </span>
+										<span class="sidenav-normal"> Ordenes <b class="caret"></b></span>
+									</a>
+									<div class="collapse" id="Ordenes">
+										<ul class="nav nav-sm flex-column">
+											<li class="nav-item">
+												<a class="nav-link " href="{% url 'Facturacion:ordenes' %}">
+													<span class="sidenav-mini-icon text-xs"> P </span>
+													<span class="sidenav-normal"> Listado de Ordenes </span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav-item mt-3">
+						<h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Mi Cuenta</h6>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'perfil' %}">
+							<div
+								class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+								<i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+							</div>
+							<span class="nav-link-text ms-1">Perfil</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="sidenav-footer mx-3 position-absolute bottom-2">
+				<a href="/admin/" target="_blank" class="btn btn-dark btn-sm w-100 mb-3">Admin</a>
+				<a class="btn btn-success btn-sm mb-0 w-100" id="logout-btn" type="button"
+					href="{% url 'Usuarios:logout' %}">Cerrar Sesion</a>
+			</div>
+		</aside>
+
+		<main class="main-content position-relative border-radius-lg ">
+			<!-- Navbar -->
+			<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
+				data-scroll="false">
+				<div class="container-fluid py-1 px-3">
+					{% block breadcrumb %}
+
+					{% endblock %}
+					<div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 justify-content-end" id="navbar">
+						<ul class="navbar-nav">
+							<li class="nav-item d-flex align-items-center">
+								<a href="{% url 'perfil' %}" class="nav-link text-white font-weight-bold px-0">
+									{% if request.session.Foto != "" %}
+									<img src="/media-files/{{ request.session.Foto }}" class="avatar avatar-sm me-2"
+										alt="User">
+									{% else %}
+									<img src="{% static 'assets/images/User Photo Default.png' %}"
+										class="avatar avatar-sm me-2" alt="User">
+									{% endif %}
+									<span class="d-sm-inline d-none">{{ request.session.Nombre }}</span>
+								</a>
+							</li>
+							<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+								<a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+									<div class="sidenav-toggler-inner">
+										<i class="sidenav-toggler-line bg-white"></i>
+										<i class="sidenav-toggler-line bg-white"></i>
+										<i class="sidenav-toggler-line bg-white"></i>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- End Navbar -->
+			{% block body %}
+
+			{% endblock %}
+			<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+			{% block scripts %} {% endblock %}
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+				integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+				crossorigin="anonymous"></script>
+</body>
+
+</html>

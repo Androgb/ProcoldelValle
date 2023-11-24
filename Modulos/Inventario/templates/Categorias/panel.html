@@ -1,0 +1,177 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Panel de Productos {% endblock %}
+{% block styles %}
+<script type="text/javascript">
+    const pagina = "Categorias";
+</script> {% endblock %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white"
+                href="javascript:;">Paginas</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Inventario</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Categorias</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Panel</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Panel de Categorias</h6>
+</nav>
+{% endblock %}
+{% block body %}
+    <div class="card m-4">
+        <div class="card-body">
+
+        {% if request.session.Cargo == "Jefe" %}
+
+            <div class="card-header py-0 pt-2 d-flex justify-content-between">
+                <p class="text-uppercase text-sm" id="first__description">Agregar Categorias</p>
+                <p class="x"></p>
+            </div>
+
+            <div class="message"></div>
+            <form action="/registrarCategoria/" method="POST" aria-action="add" id="form"
+                enctype="multipart/form-data">{% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center border-end flex-column justify-content-center h-100">
+                            <figure class="d-flex justify-content-center flex-column align-items-center">
+                                <img src="{% static 'assets/images/Categorias Photo Default.png' %}" class="w-50"
+                                    alt="Categorias Photo" id="choosen-image">
+                                <figcaption id="file-name"></figcaption>
+                            </figure>
+                            <div class="">
+                                <input type="file" class="form-label d-none" id="upload-button" accept="image/*"
+                                    id="imageInput" name="imageInput">
+                                <label class="btn bg-gradient-success" for="upload-button"><i class="fa-solid fa-upload"></i>
+                                    Seleccionar archivo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-8">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Codigo *</label>
+                                <input type="number" class="form-control" placeholder="Ingresa el Codigo"
+                                    id="primaryKey" name="primaryKey" value="{{ codigoProducto }}" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-control-label details">Nombre Categoria *</label>
+                                <input type="text" class="form-control" placeholder="Ingresa Nombre del Producto"
+                                    id="nombreCategoria" name="nombreCategoria">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center><div class="form-group">
+                                <label class="form-control-label details" style="font-size: 0.85rem;">Caracteristicas de la Imagen * 
+                                    <i class="ps-2 fa-solid fa-circle-info info-button" style="cursor: pointer;"></i>
+                                </label>
+                            </div></center>
+                        </div>
+
+                        <div class="button mt-3">
+                            <button type="submit" value="registrar Producto" class="btn btn-dark btn-sm ms-auto w-100"
+                                id="submit">Agregar Categoria</button>
+                        </div>
+                    </div>
+                </div>
+                {%else%}
+                    <p style="margin-bottom: 0rem;">No cuentas con los privilegios necesarios para acceder a esta seccion</p>
+                {%endif%}
+        </div>
+        </form>
+    </div>
+
+    {% if request.session.Cargo == "Jefe" %}
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Categorias Registradas Recientemente</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Codigo</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Nombre</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Foto</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for c in Categorias|slice:":10" %}
+                                    <tr>
+                        <td data-label="Descripcion" class="align-middle text-center">
+                            <span class="text-sm">{{c.codigoCategorias}}</span>
+                        </td>
+                        <td data-label="Precio" class="align-middle text-center text-sm">
+                            <span class="text-sm">{{c.nombreCategoria}}</span>
+                        </td>
+                        <td data-label="Stock" class="align-middle text-center">
+                            <span class="">{% if c.imagenCategoria %}
+                                <img src="{{ c.imagenCategoria.url }}" class="avatar avatar-sm me-3"
+                                    alt="Foto" style="width: 75px !important; height: 50px !important;">
+                                {% else %}
+                                <img src="{% static 'assets/images/User Photo Default.png' %}"
+                                    class="avatar avatar-sm me-3" alt="Foto">
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td data-label="Acciones" class="align-middle text-center">
+                            <a class="edit text-secondary font-weight-bold text-xs cursor-pointer" id="{{c.codigoCategorias}}"
+                                aria-action="edit"><i class="fa-solid fa-pencil me-3"></i></a>
+                            <a class="delete text-secondary font-weight-bold text-xs cursor-pointer" id="{{c.codigoCategorias}}"
+                                aria-action="delete"><i class="fa-solid fa-trash-can"></i></a>
+                        </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                        {% csrf_token %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <footer class="footer pt-3  ">
+        <div class="container-fluid">
+          <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+              <div class="copyright text-center text-sm text-muted text-lg-start">
+                © <script>
+                  document.write(new Date().getFullYear())
+                </script>,
+                hecho con <i class="fa fa-heart"></i> por
+                <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {%endif%}
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'assets/js/crud/bodega/Categorias/panel.js' %}"></script>
+<script src="{% static 'assets/js/crud/crud.js' %}"></script>
+{% endblock %}

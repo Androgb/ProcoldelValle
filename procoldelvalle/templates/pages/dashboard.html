@@ -1,0 +1,394 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="{% url 'home' %}">Paginas</a></li>
+    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+  </ol>
+  <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+</nav>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Clientes</p>
+                <h5 class="font-weight-bolder">
+                  + {{ Clientes }}
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                <i class="fa-solid fa-users"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Productos</p>
+                <h5 class="font-weight-bolder">
+                  + {{ Productos }}
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle"
+                style="display: flex; align-items: start; justify-content: center; padding-top: 4px;">
+                <i class="fa-solid fa-box"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Proveedores</p>
+                <h5 class="font-weight-bolder">
+                  + {{ Proveedores }}
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                <i class="fa-solid fa-truck-fast"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-uppercase font-weight-bold">Ventas (Mes)</p>
+                <h5 class="font-weight-bolder">
+                  ${{ Total }}
+                </h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                <i class="fa-solid fa-money-check-dollar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-7 mb-lg-0 mb-4">
+      <div class="card z-index-2 h-100">
+        <div class="card-header pb-0 pt-3 bg-transparent">
+          <h6 class="text-capitalize">Resumen de ventas (Ultimos 12 meses)</h6>
+        </div>
+        <div class="card-body p-3">
+          <div class="chart">
+            <canvas id="pagosChart" class="chart-canvas" height="300"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card card-carousel overflow-hidden h-100 p-0">
+        <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
+          <div class="carousel-inner border-radius-lg h-100">
+            <div class="carousel-item h-100 active" style="background-image: url(../../static/assets/images/carousel-1.svg);
+      background-size: cover; background-color: rgba(0, 0, 0, 0.7); background-blend-mode: multiply;">
+              <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                  <i class="fa-solid fa-shop opacity-10 text-dark" style="font-size: 0.85rem;"></i>
+                </div>
+                <h5 class="text-white mb-1">Gestiona eficientemente tu negocio</h5>
+                <p>Simplifica tus tareas diarias y optimiza tus operaciones para satisfacer las necesidades de tus
+                  clientes.</p>
+              </div>
+            </div>
+            <div class="carousel-item h-100" style="background-image: url(../../static/assets/images/carousel-2.svg);
+      background-size: cover; background-color: rgba(0, 0, 0, 0.7); background-blend-mode: multiply;">
+              <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                  <i class="fa-solid fa-chart-pie opacity-10 text-dark" style="font-size: 0.85rem;"></i>
+                </div>
+                <h5 class="text-white mb-1">Reportes y estadísticas en tiempo real</h5>
+                <p>Conoce las ventas, productos destacados y el comportamiento de tus clientes para tomar decisiones
+                  basadas en datos. </p>
+              </div>
+            </div>
+            <div class="carousel-item h-100" style="background-image: url(../../static/assets/images/carousel-3.svg);
+      background-size: cover; background-color: rgba(0, 0, 0, 0.7); background-blend-mode: multiply;">
+              <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                  <i class="fa-solid fa-building opacity-10 text-dark" style="font-size: 0.85rem;"></i>
+                </div>
+                <h5 class="text-white mb-1">Soluciones para microempresas</h5>
+                <p>Tenemos una amplia selección de artículos que cubrirán todas tus necesidades. Impulsa el éxito de tu
+                  negocio con nuestra gama de productos.</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-7 mb-lg-0 mb-4">
+      <div class="card ">
+        <div class="card-header pb-0 p-3">
+          <div class="d-flex justify-content-between">
+            <h6 class="mb-2">Productos mas vendidos Ultimo Mes (10)</h6>
+          </div>
+        </div>
+        <div class="table-responsive">
+          {% for pmv in ProductosPorcentaje %}
+          <table class="table align-items-center">
+            <tbody>
+              <tr>
+                <td class="w-30">
+                  <div class="d-flex px-2 py-1 align-items-center">
+                    <div class="icon icon-shape icon-sm me-3 bg-gradient-success shadow text-center">
+                      <i class="fa-solid fa-box text-white opacity-10"></i>
+                    </div>
+                    <div class="ms-4">
+                      <p class="text-xs font-weight-bold mb-0">Producto:</p>
+                      <h6 class="text-sm mb-0">{{ pmv.producto__nombreProducto }}</h6>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">Ventas:</p>
+                    <h6 class="text-sm mb-0">{{ pmv.cantidad }}</h6>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-center">
+                    <p class="text-xs font-weight-bold mb-0">Ganancias:</p>
+                    <h6 class="text-sm mb-0">${{ pmv.monto_total }}</h6>
+                  </div>
+                </td>
+                <td class="align-middle text-sm">
+                  <div class="col text-center">
+                    <p class="text-xs font-weight-bold mb-0">Porcentaje Ventas:</p>
+                    <h6 class="text-sm mb-0">{{ pmv.porcentaje }}%</h6>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% endfor %}
+
+
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card">
+        <div class="card-header pb-0 p-3">
+          <h6 class="mb-0">Modulos</h6>
+        </div>
+        <div class="card-body p-3">
+          <ul class="list-group">
+            {% if request.session.Cargo == "Jefe" %}
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                  <i class="fa-solid fa-users text-white opacity-10"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Trabajadores</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'Usuarios:panelTrabajadores' %}"><button
+                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                      class="fa-solid fa-right-to-bracket" style="font-size: 1rem;"></i></button></a>
+              </div>
+            </li>
+            {%endif%}
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                  <i class="fa-solid fa-warehouse text-white opacity-10"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Bodega</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'Bodega:panel' %}"><button
+                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                      class="fa-solid fa-right-to-bracket" style="font-size: 1rem;"></i></button></a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                  <i class="fa-solid fa-truck-fast text-white opacity-10"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Proveedores</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'Bodega:panelProveedores' %}"><button
+                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                      class="fa-solid fa-right-to-bracket" style="font-size: 1rem;"></i></button></a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                  <i class="fa-solid fa-box text-white opacity-10"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Productos</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'Bodega:panelProductos' %}"><button
+                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                      class="fa-solid fa-right-to-bracket" style="font-size: 1rem;"></i></button></a>
+              </div>
+            </li>
+            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+              <div class="d-flex align-items-center">
+                <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
+                  <i class="fa-solid fa-money-check-dollar text-white opacity-10"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <h6 class="mb-1 text-dark text-sm">Compras</h6>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'Facturacion:panelCompras' %}"><button
+                    class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
+                      class="fa-solid fa-right-to-bracket" style="font-size: 1rem;"></i></button></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer pt-3  ">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-lg-6 mb-lg-0 mb-4">
+          <div class="copyright text-center text-sm text-muted text-lg-start">
+            ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script>,
+            hecho con <i class="fa fa-heart"></i> por
+            <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</main>
+<input type="hidden" value="{{ data }}" id="data">
+<input type="hidden" value="{{ labels }}" id="labels">
+
+<div class="fixed-plugin">
+  <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+    <i class="fa fa-cog py-2"> </i>
+  </a>
+  <div class="card shadow-lg">
+    <div class="card-header pb-0 pt-3 ">
+      <div class="float-start">
+        <h5 class="mt-3 mb-0">Configuracion Aplicacion</h5>
+        <p>Personaliza tu dashboard:</p>
+      </div>
+      <div class="float-end mt-4">
+        <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+          <i class="fa fa-close"></i>
+        </button>
+      </div>
+      <!-- End Toggle Button -->
+    </div>
+    <hr class="horizontal dark my-1">
+    <div class="card-body pt-sm-3 pt-0 overflow-auto">
+      <!-- Sidenav Type -->
+      <div class="mt-3">
+        <h6 class="mb-0">Modo Barra Lateral</h6>
+        <p class="text-sm">Escoge entre dos modos diferentes.</p>
+      </div>
+      <div class="d-flex">
+        <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white"
+          onclick="sidebarType(this)">Blanco</button>
+        <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default"
+          onclick="sidebarType(this)">Oscuro</button>
+      </div>
+      <hr class="horizontal dark my-sm-4">
+      <div class="mt-2 mb-5 d-flex">
+        <h6 class="mb-0">Modo Claro / Oscuro</h6>
+        <div class="form-check form-switch ps-0 ms-auto my-auto">
+          <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--   Core JS Files   -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'assets/js/dashboard.js' %}"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+
+  
+</script>
+
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+{% endblock %}
+
+</html>

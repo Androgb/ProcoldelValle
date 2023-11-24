@@ -1,0 +1,160 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Listado de Trabajadores {% endblock %}
+
+{% block styles %}
+
+<script type="text/javascript">
+    const pagina = "Trabajadores";
+</script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="{% static 'assets/css/crud/listado.css' %}">
+
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Paginas</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Usuarios</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Listado</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Lista de Usuarios</h6>
+</nav>
+{% endblock %}
+
+{% block body %}
+    <div class="card m-4">  
+        {% if request.session.Cargo == "Jefe" %}
+            <div class="card-header p-4 pb-2">
+                <h5>Listado de Usuarios</h5>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                        <div class="pb-0 m-0">
+                            <div class="icons-container ps-4">
+                                <a href="#" class="btn bg-gradient-success excelBtn"><i class="fa-solid fa-file-excel"></i></a>
+                                <a href="#" class="btn bg-gradient-danger pdfBtn"><i class="fa-solid fa-file-pdf"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive">
+                                <table class="table align-items-center mb-0 datatable" id="tablaTrabajadores">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                                Cedula</th>
+                                            <th
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                                Nombre</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Cargo</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Telefono</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Direccion</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Email</th>
+                                                <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                Foto</th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7 px-2 w-10">
+                                                Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for c in Trabajadores|slice:":10" %}
+                                        <tr>
+                                            <td data-label="Cedula">
+                                                <span class="text-sm ps-3">{{c.cedula}}</span>
+                                            </td>
+                                            <td data-label="Nombre">
+                                                <span class="text-sm">{{c.nombreCompleto}}</span>
+                                            </td>
+                                            <td data-label="Cargo">
+                                                <span class="text-sm">{{c.cargo}}</span>
+                                            </td>
+                                            <td data-label="Telefono" class="">
+                                                <span class="text-sm ">{{c.telefono}}</span>
+                                            </td>
+                                            <td data-label="Direccion" class="align-middle">
+                                                <span
+                                                    class="text-sm">{{c.direccion}}</span>
+                                            </td>
+                                            <td data-label="Email" class="align-middle">
+                                                <span class="text-sm">{{c.email}}</span>
+                                            </td>
+                                            <td data-label="Email" class="align-middle">
+                                                <div>
+                                                    {% if c.fotoPerfil %}
+                                                    <img src="{{ c.fotoPerfil.url }}" class="avatar avatar-sm me-3"
+                                                        alt="Foto">
+                                                    {% else %}
+                                                    <img src="{% static 'assets/images/User Photo Default.png' %}"
+                                                        class="avatar avatar-sm me-3" alt="Foto">
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                            <td data-label="Acciones" class="align-middle text-center">
+                                                <a class="edit text-secondary font-weight-bold text-xs cursor-pointer"
+                                                    id="{{c.cedula}}" aria-action="edit">
+                                                    <i class="fa-solid fa-pencil me-3"></i>
+                                                </a>
+                                                <a class="delete text-secondary font-weight-bold text-xs cursor-pointer"
+                                                    id="{{c.cedula}}" aria-action="delete">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    {% csrf_token %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {%else%}
+                <p style="margin: 5px 10px;">No cuentas con los privilegios necesarios para acceder a esta seccion</p>
+                {%endif%}
+            </div>
+
+</div>
+
+<footer class="footer pt-3  ">
+    <div class="container-fluid">
+      <div class="row align-items-center justify-content-lg-between">
+        <div class="col-lg-6 mb-lg-0 mb-4">
+          <div class="copyright text-center text-sm text-muted text-lg-start">
+            © <script>
+              document.write(new Date().getFullYear())
+            </script>,
+            hecho con <i class="fa fa-heart"></i> por
+            <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+    integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
+<script src="{% static 'assets/js/crud/trabajadores/listado.js' %}"></script>
+<script src="{% static 'assets/js/crud/crud.js' %}"></script>
+{% endblock %}

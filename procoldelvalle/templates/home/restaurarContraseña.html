@@ -1,0 +1,112 @@
+{% load static %} <!--cargamos la carpeta static-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/home/login.css' %}">
+
+    <title>Restablecer Contraseña</title>
+</head>
+<body>
+    {% if request.GET.message %}
+      <script>
+
+        //Obtiene el parametro
+        let url = new URL(window.location.href);
+        let message = url.searchParams.get('message');
+
+          Swal.fire({
+          icon: 'error',
+          title: 'Ha ocurrido un error',
+          text: message
+        })
+
+        //Espera 2 segundos y recarga la pagina
+
+			  setTimeout(() => {
+				  window.location.href = "/login/"
+				}, 3000);
+      </script>
+    {% endif %}
+
+    <div class="container">
+        <div class="forms-container">
+          <div class="signin-signup">
+            <form action="/resetPasswordComplete/" class="reset-form" method="POST">{% csrf_token %}
+              <h2 class="title">Restablecer Contraseña</h2>
+                <input type="text" id="password-token" name="password-token" readonly style="display: none;"/>
+                <input type="number" id="password-cedula" name="password-cedula" readonly style="display: none;"/>
+
+                <script>
+                  const inputToken = document.querySelector('#password-token')
+                  const inputCedula = document.querySelector('#password-cedula')
+                  const urlPath = window.location.pathname;
+                  const matchToken = urlPath.match(/\/([^/]+)\/?$/); 
+                  const matchCedula = urlPath.match(/\/resetPassword\/(\d+)\//)
+
+                  if (matchToken) {
+                    const token = matchToken[1]
+                    inputToken.setAttribute('value', token)
+                  }
+
+                  if(matchCedula){
+                    const cedula = matchCedula[1]
+                    inputCedula.setAttribute('value', cedula)
+                  }
+                </script>
+
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Contraseña" id="password-reset" name="password-reset" />
+                <i class="fa-solid fa-eye show-password"></i>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Repetir Contraseña" id="password-reset-repeat" name="password-reset-repeat" />
+                <i class="fa-solid fa-eye show-password"></i>
+              </div>
+              <center>
+                <div class="wrapper">
+                  <p class="info-button">Parametros Contraseña <i class="fa-solid fa-circle-info "></i></p>
+                </div>
+              </center>
+              <div class="login-buttons">
+                <input type="submit" value="Restablecer" class="btn solid" />
+                <a href="/" class="btn solid return">Inicio</a>
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <div class="panels-container">
+          <div class="panel left-panel">
+            <div class="content">
+              <h3>¿Ya Tienes Cuenta?</h3>
+              <p>
+                Accede con facilidad a nuestro software Astrocode: Inicia sesión de forma rápida y sencilla.
+              </p>
+              <button class="btn transparent" id="sign-up-btn">
+                Iniciar Sesion
+              </button>
+            </div>
+            <img src="{% static 'assets/images/resetPassword.svg' %}" class="image" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <script src="{% static 'assets/js/home/inputPassword.js' %}"></script>
+      <script src="{% static 'assets/js/home/resetPassword.js' %}"></script>
+</body>
+</html>

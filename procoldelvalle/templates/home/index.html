@@ -1,0 +1,463 @@
+{% load static %} <!--cargamos la carpeta static-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <title>Procol del Valle</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'assets/css/home/templatemo-digimedia-v1.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/home/animated.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/home/owl.css' %}">
+<!--
+
+TemplateMo 568 DigiMedia
+
+https://templatemo.com/tm-568-digimedia
+
+-->
+  </head>
+
+<body>
+
+  <!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
+
+  <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <nav class="main-nav">
+            <!-- ***** Logo Start ***** -->
+            <a href="index.html" class="logo" style="color:#0b132b;">
+              <span style="color: #00b880;">Procol</span> del Valle
+            </a>
+            <!-- ***** Logo End ***** -->
+            <!-- ***** Menu Start ***** -->
+            <ul class="nav">
+              <li class="scroll-to-section"><a href="#top" class="active">Inicio</a></li>
+              <li class="scroll-to-section"><a href="#about">Sobre Nosotros</a></li>
+              <li class="scroll-to-section"><a href="#aplicacion">Aplicacion</a></li>
+              <li class="scroll-to-section"><a href="#contact">Contacto</a></li>
+              <li class="scroll-to-section"><a href="/shop">Tienda</a></li>  
+              <li class="scroll-to-section"><div class="border-first-button"><a href="/login/">Registrate</a></div></li> 
+            </ul>        
+            <a class='menu-trigger'>
+                <span>Menu</span>
+            </a>
+            <!-- ***** Menu End ***** -->
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+
+  <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row" style="position: relative; z-index: 2;">
+            <div class="col-lg-6 align-self-center">
+              <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h6 style="color:#00b880;">Comercializadora Procol del Valle</h6>
+                    <h2 style="color: #0b132b;">Conectamos Calidad Y Variedad En Un Solo Lugar</h2>
+                    <p>¡Bienvenido a Comercializadora Procol del Valle! Te ofrecemos una experiencia única para comprar productos al mejor precio y calidad. Explora nuestra aplicación web, disfruta de todas sus funcionalidades y encuentra todo lo que necesitas. </p>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="border-first-button scroll-to-section">
+                      <a href="#contact">Contacto</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+                <img src="{% static 'assets/images/slider-dec.svg' %}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="about" class="about section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="about-left-image  wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
+                <img src="{% static 'assets/images/about-dec.svg' %}" alt="">
+              </div>
+            </div>
+            <div class="col-lg-6 align-self-center  wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+              <div class="about-right-content">
+                <div class="section-heading">
+                  <h6>Sobre Nosotros</h6>
+                  <h4>¿Quienes <em>Somos?</em></h4>
+                  <div class="line-dec"></div>
+                </div>
+                <p>Comercializadora Procol del Valle es una empresa fundada en el año 2017 por cuatro emprendedores con una visión clara: atender a todo el mercado institucional de la ciudad de Cali. Desde entonces, nos hemos enfocado en ofrecer productos de alta calidad y en brindar un servicio al cliente excepcional. Nos especializamos en la distribución de cuatro líneas de referencia: servilletas, bolsas plásticas, rollos precortados y bolsas de papel. Nuestros clientes incluyen panaderías, restaurantes, puestos de comida rápida, cafeterías en clínicas, hospitales, casinos, entre otros establecimientos. En Comercializadora Procol del Valle, nos esforzamos por ser líderes en el mercado institucional, creciendo constantemente y comprometidos con el desarrollo económico de la región.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="principes section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
+            <h6>Propósito</h6>
+            <h4>Nuestra <em>Identidad</em></h4>
+            <div class="line-dec"></div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="cards">
+            <div class="card-proposite">
+              <div class="bg">
+                <div class="bg-top">
+                  <h3>Mision</h3>
+                </div>
+                <p>Somos una empresa comercializadora de insumos institucionales comprometida y enfocada en el mercado de los negocios como restaurantes, panaderias, asaderos y comidas rapidas, brindamos a nuestros clientes la facilidad de encontrar todo tipo de insumos requeridos en un solo lugar, otorgando un servicio oportuno y con gran calidad humana.</p>
+              </div>
+              <div class="blob"></div>
+            </div> 
+            
+            <div class="card-proposite">
+              <div class="bg">
+                <div class="bg-top">
+                  <h3>Vision</h3>
+                </div>
+                <p>Procol del Valle busca abarcar el mercado vallecaucano y expandirse a otros departamentos para posicionar la compañía en la mente de los negocios, ofreciendo todo en un solo lugar y adaptándose a las dinámicas del mercado cambiante, además de fortalecer los canales de venta online con un servicio mejorado para el año 2025.</p>
+              </div>
+              <div class="blob"></div>
+            </div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="valors section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
+            <h6>Nuestra Etica</h6>
+            <h4>Valores <em>Corporativos</em></h4>
+            <div class="line-dec"></div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="cards cards-valors">
+            <div class="card-proposite card-valors">
+              <div class="bg">
+                  <div class="icon"><i class="fa-solid fa-heart"></i></div>
+                  <h4 class="title"><a href="#">Honestidad</a></h4>
+                  <p class="description">Ofrecer a los clientes lo que la empresa está en condiciones de cumplir. Ser coherentes con su razon de ser, actuar dentro de la verdad, con honradez, responsabilidad y total transparencia.</p>
+              </div>
+            </div>   
+
+            <div class="card-proposite card-valors">
+              <div class="bg">
+                <div class="icon"><i class="fa-solid fa-people-group"></i></div>
+                <h4 class="title"><a href="#">Trabajo en Equipo</a></h4>
+                <p class="description">
+                  La mutua ayuda en el trabajo fomenta la colaboración y compromiso entre las personas. Al compartir conocimientos y habilidades, mejoramos nuestra capacidad para resolver problemas y nos motivamos a alcanzar nuestras metas.</p>
+              </div>
+            </div>   
+
+            <div class="card-proposite card-valors">
+              <div class="bg">
+                <div class="icon"><i class="fa-solid fa-people-line"></i></div>
+                <h4 class="title"><a href="#">Responsabilidad Social</a></h4>
+                <p class="description">Grantizar que las operaciones y politicas de la empresa vayan de acuerdo a los reglamentos aplicados hacia la prevencion de inconvenientes sociales creando de esta manera una imagen publica favorable y contribuyendo al cuidado del medio ambiente</p>
+              </div>
+            </div>   
+
+            <div class="card-proposite card-valors">
+              <div class="bg">
+                <div class="icon"><i class="fa-solid fa-clock"></i></div>
+                <h4 class="title"><a href="#">Puntualidad</a></h4>
+                <p class="description">Saber de la importancia de hacer las cosas a tiempo y en el lugar conveniente. La eficacia y la calidad de los servicios es la meta teniendo como labor la garantia de satisfaccion de los clientes</p>
+              </div>
+            </div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services section" id="aplicacion">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-heading  wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.5s">
+            <h6>Aplicacion Web</h6>
+            <h4>Principales <em>Funcionalidades</em></h4>
+            <div class="line-dec"></div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="naccs">
+            <div class="grid">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="menu">
+                    <div class="first-thumb active">
+                      <div class="thumb">
+                        <span class="icon"><i class="fa-solid fa-bag-shopping"></i></span>
+                        Compra de Productos
+                      </div>
+                    </div>
+                    <div>
+                      <div class="thumb">
+                        <span class="icon"><i class="fa-solid fa-truck"></i></span>
+                        Estado de la Compra
+                      </div>
+                    </div>
+                    <div>
+                      <div class="thumb">
+                        <span class="icon"><i class="fa-solid fa-cart-shopping"></i></span>
+                        Carrito de Compras
+                      </div>
+                    </div>
+                    <div class="last-thumb">
+                      <div class="thumb">                 
+                        <span class="icon"><i class="fa-solid fa-phone"></i></span>
+                        Contacto y Reseñas
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                <div class="col-lg-12">
+                  <ul class="nacc">
+                    <li class="active">
+                      <div>
+                        <div class="thumb">
+                          <div class="row">
+                            <div class="col-lg-6 align-self-center">
+                              <div class="left-text">
+                                <h4>Compra de Productos</h4>
+                                <p>En la aplicación web, los usuarios podrán explorar y reservar productos disponibles en el inventario de la empresa. Además, la plataforma permite realizar pagos de manera digital y virtual mediante diversos métodos de pago, como tarjeta de crédito, Nequi o contraentrega. Todo esto facilita la adquisición de productos de manera ágil y eficiente.</p>
+                                <div class="ticks-list"><span><i class="fa fa-check"></i> Variedad de Productos</span> <span><i class="fa fa-check"></i> Descuentos</span> <span><i class="fa fa-check"></i> Compras 24/7</span></div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                              <div class="right-image">
+                                <img src="{% static 'assets/images/services-image.svg' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <div class="thumb">
+                          <div class="row">
+                            <div class="col-lg-6 align-self-center">
+                              <div class="left-text">
+                                <h4>Estado de la Compra</h4>
+                                <p>Los usuarios podrán verificar el estado de los productos adquiridos en tiempo real, de forma intuitiva y fácil de entender. Podrán saber si el producto ha sido aceptado, está en proceso de entrega o ya ha sido entregado, lo que permite tener un seguimiento detallado del pedido.</p>
+                                <div class="ticks-list"><span><i class="fa fa-check"></i> Contacto con el Transportista</span> <span><i class="fa fa-check"></i> Sistema de Calificacion de Entrega</span> </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                              <div class="right-image">
+                                <img src="{% static 'assets/images/services-image-02.svg' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <div class="thumb">
+                          <div class="row">
+                            <div class="col-lg-6 align-self-center">
+                              <div class="left-text">
+                                <h4>Carrito de Compras</h4>
+                                <p>La aplicación permite a los usuarios crear su propio carrito de compras de manera fácil e intuitiva. Podrán añadir o eliminar productos, ver el subtotal y el total de su compra, lo que facilita la gestión de los pedidos y asegura una experiencia de compra satisfactoria.</p>
+                                <div class="ticks-list"><span><i class="fa fa-check"></i> Guardar productos para su posterior compra</span> <span><i class="fa fa-check"></i> Total detallado de la compra</span></div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                              <div class="right-image">
+                                <img src="{% static 'assets/images/services-image-03.svg' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div>
+                        <div class="thumb">
+                          <div class="row">
+                            <div class="col-lg-6 align-self-center">
+                              <div class="left-text">
+                                <h4>Contacto y Reseñas</h4>
+                                <p> Los usuarios tendrán la opción de contactar con la empresa a través de la aplicación web para realizar consultas, brindar sugerencias o reportar incidencias. Además, podrán dejar reseñas y comentarios sobre los productos adquiridos, compartiendo su experiencia y recomendaciones con otros usuarios.</p>
+                                <div class="ticks-list"><span><i class="fa fa-check"></i> Respuesta Rapida</span> <span><i class="fa fa-check"></i> Reseñas y Opiniones</span></div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                              <div class="right-image">
+                                <img src="{% static 'assets/images/services-image-04.svg' %}" alt="">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>          
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact" class="contact-us section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+          <div class="section-heading wow fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+            <h6>Contacto</h6>
+            <h4>Comunicate <em>Ahora</em></h4>
+            <div class="line-dec"></div>
+          </div>
+        </div>
+        <div class="col-lg-12 wow fadeInUp" data-wow-duration="0.5s" data-wow-delay="0.25s">
+          <form id="contact" action="https://formspree.io/f/mbjebejo" method="post">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="contact-dec">
+                  <img src="{% static 'assets/images/contact-dec.svg' %}" alt="">
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <div id="map">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.4847891795944!2d-76.48659322579535!3d3.4744349510685706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a7dc91e3efa5%3A0x73e8eff60d5cf6a6!2sCra.%201j%20%2372-53%2C%20Jorge%20Eliecer%20Gaitan%2C%20Cali%2C%20Palmira%2C%20Valle%20del%20Cauca!5e0!3m2!1ses-419!2sco!4v1684373179875!5m2!1ses-419!2sco" width="100%" height="636px" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="fill-form">
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="info-post">
+                        <div class="icon">
+                          <img src="{% static 'assets/images/phone-icon.png' %}" alt="">
+                          <a href="#">320 6465954</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="info-post">
+                        <div class="icon">
+                          <img src="{% static 'assets/images/email-icon.png' %}" alt="">
+                          <a href="#" style="font-size: 10.45px; line-break: anywhere;">procoldelvalle@gmail.com</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="info-post">
+                        <div class="icon">
+                          <img src="{% static 'assets/images/location-icon.png' %}" alt="">
+                          <a href="#">Cra 1J #72-53 </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <fieldset>
+                        <input type="name" name="name" id="nombre" placeholder="Nombre" autocomplete="on" required>
+                      </fieldset>
+                      <fieldset>
+                        <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Email" required="">
+                      </fieldset>
+                      <fieldset>
+                        <input type="subject" name="subject" id="asunto" placeholder="Asunto" autocomplete="on">
+                      </fieldset>
+                    </div>
+                    <div class="col-lg-6">
+                      <fieldset>
+                        <textarea name="message" type="text" class="form-control" id="message" placeholder="Mensaje" required=""></textarea>  
+                      </fieldset>
+                    </div>
+                    <div class="col-lg-12">
+                      <fieldset>
+                        <button type="submit" id="form-submit" class="main-button ">Enviar Mensaje Ahora</button>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2023 Astrocode - Comercializadora Procol del Valle. 
+        </p>
+        </div>
+      </div>
+    </div> 
+  </footer> 
+
+
+  <!-- Scripts -->
+  <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/js/home/owl-carousel.js' %}"></script>
+  <script src="{% static 'assets/js/home/animation.js' %}"></script>
+  <script src="{% static 'assets/js/home/imagesloaded.js' %}"></script>
+  <script src="{% static 'assets/js/home/custom.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Panel de Bodega {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="{% static 'assets/css/crud/listado.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Facturacion</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Ordenes</li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Listado</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Listado de Ordenes</h6>
+</nav>
+{% endblock %}
+{% block body %}
+<div class="card m-4">
+    <div class="card-body">
+        <div class="card-header py-0 pt-2 d-flex justify-content-between">
+            <p class="text-uppercase text-sm" id="first__description">Editar Orden</p>
+            <p class="x"></p>
+        </div>
+        <div class="message"></div>
+        <form action="/registrarBodega/" method="POST" aria-action="add" id="form" enctype="multipart/form-data">{% csrf_token %}
+            <div class="row m-0 ms-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Codigo Orden *</label>
+                        <input type="number" class="form-control" placeholder="Ingresa el Codigo de Entrega"
+                            id="primaryKey" name="primaryKey" disabled>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="details">Estado *</label>
+                        <select class="form-select" required id="estado" name="estado" disabled>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Completada">Completada</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button">
+                    <input type="submit" class="btn btn-dark btn-sm ms-auto form-control" value="Editar Orden" id="submit">
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="pb-0 m-0">
+                    <div class="icons-container ps-4">
+                        <a href="#" class="btn bg-gradient-success excelBtn"><i class="fa-solid fa-file-excel"></i></a>
+                        <a href="#" class="btn bg-gradient-danger pdfBtn"><i class="fa-solid fa-file-pdf"></i></a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6>Listado de las Ordenes</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0 datatable" id="tablaOrdenes">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                            Codigo</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Cedula</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Cliente</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Fecha</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Total</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Metodo Pago</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Estado</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7 px-2 w-10">
+                                            Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for o in Ordenes %}
+                                    <tr>
+                                        <td data-label="Codigo">
+                                            <span class="text-sm ps-3">{{o.codigoOrden}}</span>
+                                        </td>
+                                        <td data-label="Cedula">
+                                            <span class="badge badge-sm bg-dark">{{o.cliente.cedula}}</span>
+                                        </td>
+                                        <td data-label="Nombre">
+                                            <span class="text-sm">{{o.cliente.nombreCompleto}}</span>
+                                        </td>
+                                        <td data-label="Fecha" class="">
+                                            <span class="text-sm ">{{o.fechaCreacion}}</span>
+                                        </td>
+                                        <td data-label="Total" class="align-middle">
+                                            <span class="text-sm">{{o.total}}</span>
+                                        </td>
+                                        <td data-label="Metodo" class="align-middle">
+                                            <span class="text-sm">{{o.metodoPago}}</span>
+                                        </td>
+                                        {% if o.estado == "Pendiente" %}
+                                        <td data-label="Estado" class="align-middle">
+                                            <span class="badge badge-sm bg-gradient-danger">{{o.estado}}</span>
+                                        </td>
+                                        {%else%}
+                                        <td data-label="Estado" class="align-middle">
+                                            <span class="badge badge-sm bg-gradient-success">{{o.estado}}</span>
+                                        </td>
+                                        {% endif %}
+                                        <td data-label="Acciones" class="align-middle text-center">
+                                            <a class="edit text-secondary font-weight-bold text-xs cursor-pointer"
+                                                id="{{o.codigoOrden}}" aria-action="edit">
+                                                <i class="fa-solid fa-pencil me-3"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% csrf_token %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer pt-3  ">
+            <div class="container-fluid">
+              <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                  <div class="copyright text-center text-sm text-muted text-lg-start">
+                    © <script>
+                      document.write(new Date().getFullYear())
+                    </script>,
+                    hecho con <i class="fa fa-heart"></i> por
+                    <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+    </div>
+    </main>
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+    integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{% static 'assets/js/crud/Facturacion/Ordenes/panel.js' %}"></script>
+    <script src="{% static 'assets/js/crud/crud.js' %}"></script>
+    {% endblock %}

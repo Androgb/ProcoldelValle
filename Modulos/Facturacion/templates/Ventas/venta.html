@@ -1,0 +1,262 @@
+{% extends "crud.html" %}
+
+{% load static %}
+
+{% block title %} Panel de Ventas {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap5.min.css">
+
+<script type="text/javascript">
+    const pagina = "Facturacion";
+</script>
+
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a>
+        </li>
+        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Facturacion</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Panel de Ventas</h6>
+</nav>
+{% endblock %}
+{% block body %}
+<div class="row m-0 p-0">
+    <div class="col-md-8 ms-4">
+        <div class="card ">
+            <div class="card-header p-4 pb-2 d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-box fs-4 ps-2"></i>
+                    <h5 class="ps-3 m-0">Listado de Productos</h5>
+                </div>
+                <div>
+                    <span class="text-xs badge bg-gradient-success cursor-pointer" id="Hide">Mostrar Productos</span>
+                </div>
+            </div>
+            <div class="card-body p-2">
+                <div class="table-responsive tabla d-none">
+                    <table class="table align-items-center mb-0 datatable" id="tablaProductos">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                    Codigo</th>
+                                <th <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Nombre</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Precio</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Stock</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7 px-2 w-20">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in Productos %}
+                            <tr>
+                                {% if not Codigo %}
+                                    <form action="/agregarProductoCompra/{{c.codigoProducto}}/0/" method="post">{% csrf_token %}
+                                {% else %}
+                                <form action="/agregarProductoCompra/{{c.codigoProducto}}/{{Codigo}}/" method="post">{% csrf_token %}
+                                {% endif %}
+                                <td data-label="codigo">
+                                    <span class="text-sm ps-3">{{c.codigoProducto}}</span>
+                                </td>
+                                <td data-label="Nombre">
+                                    <span class="text-sm">{{c.nombreProducto}}</span>
+                                </td>
+                                <td data-label="Precio" class="">
+                                    <span class="text-sm ">{{c.precioUnidad}} COP</span>
+                                </td>
+                                <td data-label="stock" class="align-middle">
+                                    <span class="text-sm">{{c.stock}}</span>
+                                </td>
+                                <td data-label="Acciones" class="align-middle text-center">
+                                    {% if not Codigo %}
+                                    <button style="background: none; border: none;" class="agregar text-secondary font-weight-bold text-xs cursor-pointer me-2"
+                                        id="{{c.codigoProducto}}" aria-action="delete">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                    {% else %}
+                                    <button style="background: none; border: none;" class="agregar text-secondary font-weight-bold text-xs cursor-pointer me-2"
+                                        id="{{c.codigoProducto}}" data-factura="{{Codigo}}" aria-action="delete">
+                                        <i class="bi bi-plus-circle"></i>
+                                    </button>
+                                    {% endif %}
+                                </td>
+                                </form>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% csrf_token %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-header p-4 pb-2 d-flex align-items-center">
+                <i class="bi bi-cart3 fs-4 ps-2"></i>
+                <h5 class="ps-3 m-0">Carrito de Compras</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0 datatable" id="tablaCarrito">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">
+                                    Codigo</th>
+                                <th <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Producto</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 w-10">
+                                    Cantidad</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 w-20">
+                                    Precio</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs text-end font-weight-bolder opacity-7 pe-2 w-20">
+                                    Subtotal</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 px-2 w-10">
+                                    Calcular</th>
+                                <th
+                                    class="text-uppercase text-secondary text-xxs text-center font-weight-bolder opacity-7 px-2 w-10">
+                                    Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            {% for pro in ProductosCompra %}
+                                <tr>
+                                    <form action="/actualizarProductoCompra/{{pro.codigoProductoCompra}}/" method="post">{% csrf_token %}
+                                    <td>
+                                        <span class="text-sm ps-3">{{pro.producto.codigoProducto}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-sm ps-3">{{pro.producto.nombreProducto}}</span>
+                                    </td>
+                                    <td>
+                                        <input class="form-control text-sm" type="number" name="cantidad" value="{{pro.cantidad}}">
+                                    </td>
+                                    <td>
+                                        <span class="text-sm ps-3">{{pro.producto.precioUnidad}}</span>
+                                    </td>
+                                    <td>
+                                        <span class="text-sm ps-3">{{pro.subtotal}} COP</span>
+                                    </td>
+                                    <td data-label="Descripcion" class="align-middle text-center">
+                                        <button type="submit" style="border: none; background: none;" class="actualizar text-secondary font-weight-bold text-xs cursor-pointer">
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </button>
+                                    </td>
+                                    <td data-label="Acciones" class="align-middle text-center">
+                                      <a href="/eliminarProductoCompra/{{pro.codigoProductoCompra}}/" class="remover text-secondary font-weight-bold text-xs cursor-pointer">
+                                        <i class="bi bi-x-circle"></i>
+                                      </a>
+                                    </td>
+                                </form>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% csrf_token %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card col-md-3 ms-4">
+        <div class="card-header d-flex justify-content-center">
+            <h5 class="ps-3 m-0">Datos de la Venta</h5>
+        </div>
+        <div class="message"></div>
+        <form action="/actualizarPago/{{Codigo}}/" method="POST" aria-action="add" id="form" enctype="multipart/form-data">
+            {%csrf_token %}
+            <div class="row m-0 ms-2 border-top">
+                <div class="form-group">
+                    <label class="details">Caja *</label>
+                    <select class="form-select" readonly required id="caja" name="caja">
+                        <!-- Lista los trabajadores -->
+                        {% for c in Cajas %}
+                        <option value="{{c.codigoCaja}}">Caja #{{c.numeroCaja}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-box mb-3">
+                    <label class="details">Cliente *</label>
+                    <select class="form-select" required id="Cliente" name="cliente">
+                        <!-- Lista los trabajadores -->
+                        {% for t in Clientes %}
+                        <option value="{{t.cedula}}">{{t.nombreCompleto}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <label class="details">Metodo de Pago *</label>
+                <div class="form-group d-flex">
+                    <div class="px-2 align-items-center">
+                        <input type="radio" name="metodo_pago" value="Efectivo" onclick="mostrarCamposPago()">
+                        <label for=""><i class="bi bi-cash"></i> Efectivo</label>
+                    </div>
+                    <div class="px-3 align-items-center">
+                        <input type="radio" name="metodo_pago" class="px-3" value="Tarjeta"
+                            onclick="ocultarCamposPago()">
+                        <label for=""><i class="bi bi-credit-card"></i> Tarjeta</label>
+                    </div>
+                </div>
+                <ul class="list-unstyled border-top">
+                    <li class="my-2 mt-3 d-flex justify-content-between align-items-center">
+                        Subtotal
+                        <span class="fw-lighter text-xs" id="subtotal"> + ${{Subtotal}} COP</span>
+                    </li>
+                    <li class="my-2 d-flex justify-content-between align-items-center">
+                        IVA (19%)
+                        <span class="fw-lighter text-xs" id="iva"> + ${{Iva}} COP</span>
+                    </li>
+                    <li
+                        class="border-top mb-2  mt-3 pt-4 d-flex justify-content-between align-items-center font-weight-bold">
+                        Total
+                        <span class="fw-lighter text-xs" id="total1"> ${{Total}} COP</span>
+                    </li>
+                </ul>
+                <div class="button">
+                    <input type="submit" class="btn btn-dark btn-sm ms-auto form-control mb-3" value="Actualizar Venta"
+                        id="submit">
+                    <a href="/ventaIndividualPdf/{{Codigo}}/" class="pdfBtnIndividual btn btn-dark btn-sm ms-auto form-control mb-3">Exportar Factura</a>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+<footer class="footer pt-3  ">
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+            <div class="col-lg-6 mb-lg-0 mb-4">
+                <div class="copyright text-center text-sm text-muted text-lg-start">
+                    ©
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>,
+                    hecho con <i class="fa fa-heart"></i> por
+                    <a href="#" class="font-weight-bold" target="_blank">AstroCode</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+    integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap5.min.js"></script>
+<script src="{% static 'assets/js/crud/Facturacion/ventas.js' %}"></script>
+<script src="{% static 'assets/js/crud/crud.js' %}"></script>
+{% endblock %}
